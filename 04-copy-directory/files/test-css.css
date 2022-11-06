@@ -1,3 +1,7 @@
 * {
   margin: unset;
 }
+
+h1 {
+  padding: auto;
+}
