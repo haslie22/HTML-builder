@@ -32,7 +32,7 @@ async function createDir(inputDir, outputDir, dir) {
 
     copyFiles(inputDir, outputDir);
   } catch (err) {
-    console.log('\x1b[31m', 'Error: ', err.message);
+    console.log('\x1b[31m', 'Error from createDir: ', err.message);
   }
 }
 
@@ -51,7 +51,7 @@ async function copyFiles(input, output) {
       }
     }
   } catch (err) {
-    console.log('\x1b[31m', 'Error: ', err.message);
+    console.log('\x1b[31m', 'Error from copyFiles: ', err.message);
   }
 }
 
@@ -59,12 +59,12 @@ async function createHTML(templateFile, componentsDir) {
   try {
     const template = await readFile(path.join(__dirname, templateFile));
     const templateReadable = template.toString();
-    const componentTemplates = templateReadable.match(/{{(.*)}}/gi);
+    const componentTemplates = templateReadable.match(/{{([^}]+)}}/gi);
     let replacedHTML = templateReadable;
 
     if (componentTemplates) {
       for (let item of componentTemplates) {
-        const fileName = `${item.replace(/{{(.*)}}/gi, '$1')}${settings.htmlExtension}`;
+        const fileName = `${item.replace(/{{([^}]+)}}/gi, '$1')}${settings.htmlExtension}`;
         const fileContent = await readFile(path.join(__dirname, componentsDir, fileName));
 
         replacedHTML = replacedHTML.replace(item, fileContent.toString());
@@ -74,7 +74,7 @@ async function createHTML(templateFile, componentsDir) {
       stdout.write(`File ${settings.outputHTMLFile} in ${settings.dirName} created\n`);
     }
   } catch (err) {
-    console.log('\x1b[31m', 'Error: ', err.message);
+    console.log('\x1b[31m', 'Error from createHTML: ', err.message);
   }
 }
 
@@ -91,7 +91,7 @@ async function createCSS() {
 
     stdout.write(`File ${settings.outputCSSFile} created\n`);
   } catch (err) {
-    console.log('\x1b[31m', 'Error: ', err.message);
+    console.log('\x1b[31m', 'Error from createCSS: ', err.message);
   }
 }
 
@@ -104,7 +104,7 @@ async function createProject() {
     await createHTML(settings.sourceTemplateFile, settings.sourceComponentsDir, settings.dirPath);
     await createCSS();
   } catch (err) {
-    console.log('\x1b[31m', 'Error: ', err.message);
+    console.log('\x1b[31m', 'Error from createProject: ', err.message);
   }
 }
 
