@@ -5,8 +5,8 @@ const { stdout } = require('process');
 const dirPath = path.join(__dirname, 'secret-folder');
 const options = { withFileTypes: true };
 
-function convertBytesToKb (amount, franctionalPartLength) {
-  return `${(amount / 1024).toFixed(franctionalPartLength)}kB`;
+function convertBytesToKb (amount) {
+  return `${(amount / 1024)}kB`;
 }
 
 async function getFilesInfo(path, opts) {
